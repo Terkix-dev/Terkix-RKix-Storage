@@ -1,0 +1,8 @@
+{
+  "name": "RKix Storage Center",
+  "description": "A centralized project storage and repository management dashboard built with an enterprise IBM Cloud and Vercel aesthetic, featuring storage analytics, Git integrations, auto-backups, and a Gemini-powered AI Assistant.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
