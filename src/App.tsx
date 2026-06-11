@@ -44,6 +44,7 @@ import {
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip } from 'recharts';
 import { Project, ProjectStatus, StorageNode, BackupLog, Notification, AuditLog, StorageStats, ArchiveBundle } from './types';
 import DashboardStats from './components/DashboardStats';
+import RKixLogo from './components/RKixLogo';
 
 export default function App() {
   // Current tab state
@@ -1042,8 +1043,68 @@ export default function App() {
     );
   });
 
+  const totalCapacity = stats?.totalCapacityGb ?? 1024;
+  const usedStorage = stats?.usedGb ?? 0;
+  const usedStoragePercent = totalCapacity > 0 ? ((usedStorage / totalCapacity) * 100).toFixed(1) : '0.0';
+  const activePageMeta = {
+    overview: {
+      eyebrow: 'Command Center',
+      title: 'Bảng điều khiển vận hành RKix v1.0',
+      description: 'Theo dõi dự án, dung lượng, backup và cảnh báo trên một giao diện tối giản, sang trọng, sẵn sàng demo.',
+      cta: 'Khởi tạo dự án',
+      action: () => setIsNewProjectModalOpen(true),
+    },
+    explorer: {
+      eyebrow: 'Storage Explorer',
+      title: 'Duyệt không gian lưu trữ trực quan',
+      description: 'Quản lý cây thư mục, file, Trash và thao tác phân vùng trong trải nghiệm gần với một control plane thực tế.',
+      cta: 'Thêm bản ghi',
+      action: () => setIsCreateExplorerOpen(true),
+    },
+    projects: {
+      eyebrow: 'Project Registry',
+      title: 'Quản lý vòng đời toàn bộ dự án',
+      description: 'Tìm kiếm, tạo mới, chỉnh trạng thái, kiểm thử kết nối repository và thao tác Git mô phỏng.',
+      cta: 'Tạo project',
+      action: () => setIsNewProjectModalOpen(true),
+    },
+    backup: {
+      eyebrow: 'Backup Center',
+      title: 'Sao lưu và phục hồi có kiểm soát',
+      description: 'Theo dõi checkpoint, restore snapshot và trạng thái an toàn dữ liệu trong một màn hình tập trung.',
+      cta: 'Đồng bộ dữ liệu',
+      action: () => fetchAllData(),
+    },
+    archive: {
+      eyebrow: 'Archive Center',
+      title: 'Nén, xuất kho và lưu trữ dài hạn',
+      description: 'Đóng gói project thành archive ZIP mô phỏng, xem cấu trúc bên trong và xuất metadata nhanh.',
+      cta: 'Đồng bộ archive',
+      action: () => fetchAllData(true),
+    },
+    security: {
+      eyebrow: 'Security Ledger',
+      title: 'Audit log và giám sát thay đổi',
+      description: 'Quan sát các sự kiện vận hành, notification và dấu vết thao tác quan trọng trên toàn hệ thống.',
+      cta: 'Làm mới log',
+      action: () => fetchAllData(true),
+    },
+    ai: {
+      eyebrow: 'AI Copilot',
+      title: 'Trợ lý thông minh cho storage team',
+      description: 'Hỏi nhanh về dung lượng, backup, Git workflow hoặc để AI đề xuất tối ưu cho dự án hiện tại.',
+      cta: 'Gợi ý câu hỏi',
+      action: () => handlePresetAiPrompt('Phân tích nhanh tình trạng hệ thống RKix hiện tại và đề xuất 3 việc ưu tiên.'),
+    },
+  }[activeTab];
+
   return (
-    <div id="main-container" className="flex h-screen w-full bg-[#0A0A0A] text-[#E5E5E5] font-sans overflow-hidden relative">
+    <div id="main-container" className="app-shell flex h-screen w-full bg-[#0A0A0A] text-[#E5E5E5] font-sans overflow-hidden relative">
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+        <div className="absolute left-[-12rem] top-[-14rem] h-[32rem] w-[32rem] rounded-full bg-cyan-500/10 blur-3xl animate-orb-float" />
+        <div className="absolute right-[-16rem] top-[22%] h-[36rem] w-[36rem] rounded-full bg-indigo-600/10 blur-3xl animate-orb-float-delayed" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:72px_72px] opacity-40" />
+      </div>
       
       {/* Mobile Sidebar Overlay Mask */}
       {isMobileMenuOpen && (
@@ -1056,26 +1117,14 @@ export default function App() {
       {/* 1. Left Sidebar Navigation matching elegant theme panel */}
       <aside 
         id="app-sidebar" 
-        className={`w-64 flex flex-col border-r border-[#262626] bg-[#0D0D0D] h-full shrink-0 fixed inset-y-0 left-0 z-50 transform md:static md:translate-x-0 transition-transform duration-300 ease-in-out ${
+        className={`w-64 flex flex-col border-r border-white/10 bg-[#0B0F14]/85 backdrop-blur-2xl h-full shrink-0 fixed inset-y-0 left-0 z-50 transform md:static md:translate-x-0 transition-transform duration-300 ease-in-out ${
           isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         
         {/* Core RKix Brand branding header */}
         <div className="p-6 flex items-center justify-between border-b border-[#262626]/40">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-[#00D4FF] to-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-[#00D4FF]/10 animate-glow">
-              <svg className="w-4 h-4 text-[#0A0A0A]" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-              </svg>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-display font-bold tracking-tight text-white text-base">
-                RKix <span className="text-[#00D4FF]">Storage</span>
-              </span>
-              <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest leading-none">Center Platform</span>
-            </div>
-          </div>
+          <RKixLogo />
           <div className="flex items-center gap-2">
             {/* Close button on mobile */}
             <button 
@@ -1228,10 +1277,10 @@ export default function App() {
       </aside>
 
       {/* 2. Main Content viewport area */}
-      <main className="flex-1 flex flex-col h-full overflow-hidden">
+      <main className="relative z-10 flex-1 flex flex-col h-full overflow-hidden">
         
         {/* Dynamic header with quick overview, query search bar, notification drop */}
-        <header className="h-16 border-b border-[#262626] flex items-center justify-between px-4 md:px-8 bg-[#0D0D0D] shrink-0">
+        <header className="h-16 border-b border-white/10 flex items-center justify-between px-4 md:px-8 bg-[#0B0F14]/78 backdrop-blur-2xl shrink-0 shadow-[0_14px_44px_rgba(0,0,0,0.22)]">
           <div className="flex items-center gap-2 md:gap-3">
             {/* Hamburger button on mobile */}
             <button 
@@ -1316,7 +1365,7 @@ export default function App() {
             <h3 className="text-sm font-mono text-gray-400 uppercase tracking-widest animate-pulse">Đang đồng bộ dữ liệu hệ thống...</h3>
           </div>
         ) : (
-          <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
 
             {/* Render unread system alerts right at the top for warning visibility */}
             {notifications.filter(n => !n.read).length > 0 && (
@@ -1336,6 +1385,60 @@ export default function App() {
                 </button>
               </div>
             )}
+
+            <section className="rkix-hero-card relative overflow-hidden rounded-3xl border border-white/10 bg-[#0D1117]/82 p-5 md:p-7 shadow-2xl shadow-black/30 backdrop-blur-2xl">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_0%,rgba(0,212,255,0.18),transparent_35%),radial-gradient(circle_at_82%_18%,rgba(99,102,241,0.16),transparent_36%)]" />
+              <div className="relative grid gap-6 xl:grid-cols-[1.4fr_0.9fr]">
+                <div className="space-y-5">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/8 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-cyan-100">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#00D4FF] shadow-[0_0_14px_#00D4FF]" />
+                    {activePageMeta.eyebrow}
+                  </div>
+                  <div>
+                    <h1 className="max-w-4xl font-display text-3xl font-semibold tracking-[-0.04em] text-white md:text-5xl">
+                      {activePageMeta.title}
+                    </h1>
+                    <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300 md:text-base">
+                      {activePageMeta.description}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <button
+                      onClick={activePageMeta.action}
+                      className="group inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-slate-950 transition hover:bg-[#00D4FF]"
+                    >
+                      {activePageMeta.cta}
+                      <ArrowRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" />
+                    </button>
+                    <span className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-slate-400">
+                      Release Candidate · v1.0
+                    </span>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="rounded-2xl border border-white/10 bg-black/24 p-4">
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-slate-500">Projects</span>
+                    <strong className="mt-2 block font-display text-3xl text-white">{projects.length}</strong>
+                    <span className="text-xs text-slate-400">{projects.filter(p => p.status !== 'Archived').length} đang hoạt động</span>
+                  </div>
+                  <div className="rounded-2xl border border-white/10 bg-black/24 p-4">
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-slate-500">Storage</span>
+                    <strong className="mt-2 block font-display text-3xl text-[#00D4FF]">{usedStoragePercent}%</strong>
+                    <span className="text-xs text-slate-400">{usedStorage.toFixed(2)}GB / {totalCapacity.toLocaleString()}GB</span>
+                  </div>
+                  <div className="rounded-2xl border border-white/10 bg-black/24 p-4">
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-slate-500">Backups</span>
+                    <strong className="mt-2 block font-display text-3xl text-emerald-300">{backups.length}</strong>
+                    <span className="text-xs text-slate-400">{backups.filter(b => b.status === 'Success').length} snapshot OK</span>
+                  </div>
+                  <div className="rounded-2xl border border-white/10 bg-black/24 p-4">
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-slate-500">Alerts</span>
+                    <strong className="mt-2 block font-display text-3xl text-amber-200">{notifications.filter(n => !n.read).length}</strong>
+                    <span className="text-xs text-slate-400">cảnh báo chưa đọc</span>
+                  </div>
+                </div>
+              </div>
+            </section>
 
             {/* TAB CONTENT: OVERVIEW DASHBOARD */}
             {activeTab === 'overview' && (

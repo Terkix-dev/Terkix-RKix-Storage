@@ -1,195 +1,95 @@
-Dưới đây là khung tài liệu chuẩn cho dự án Terkix RKix
-RKix Storage Center
-1. Tổng Quan Dự Án
-RKix Storage Center là hệ thống quản lý và lưu trữ dự án tập trung.
-Mục tiêu:
-Quản lý toàn bộ dự án trong một giao diện duy nhất.
-Theo dõi trạng thái hoạt động của từng dự án.
-Quản lý dung lượng lưu trữ.
-Tìm kiếm và truy cập dự án nhanh chóng.
-Hỗ trợ backup và archive.
-Tích hợp GitHub, GitLab và lưu trữ cục bộ.
-Thiết kế hiện đại tương tự IBM Cloud, GitHub và Vercel.
-2. Người Dùng Mục Tiêu
-Developer
-Quản lý source code.
-Team Leader
-Theo dõi tiến độ dự án.
-Administrator
-Quản lý toàn bộ hệ thống lưu trữ.
-3. Dashboard Tổng Quan
-Hiển thị:
-Tổng số dự án.
-Dự án đang hoạt động.
-Dự án đã lưu trữ.
-Tổng dung lượng.
-Dung lượng đã sử dụng.
-Dự án truy cập gần đây.
-Hoạt động mới nhất.
-Widget:
-Project Counter
-Storage Usage
-Activity Feed
-Recent Projects
-Backup Status
-4. Project Storage Explorer
-Cấu trúc:
-Storage ├── Active Projects ├── Archived Projects ├── Templates ├── Backups └── Trash
-Chức năng:
-Tạo thư mục.
-Đổi tên.
-Xóa.
-Di chuyển.
-Kéo thả.
-Upload.
-Download.
-5. Quản Lý Dự Án
-Mỗi dự án bao gồm:
-Tên dự án
-ID
-Mô tả
-Trạng thái
-Ngày tạo
-Ngày cập nhật
-Dung lượng
-Repository URL
-Tags
-Owner
-Trạng thái:
-Active
-Development
-Testing
-Maintenance
-Archived
-6. Storage Analytics
-Thống kê:
-Tổng dung lượng.
-Tăng trưởng theo thời gian.
-Top dự án chiếm dung lượng.
-Phân loại file.
-Biểu đồ:
-Donut Chart
-Area Chart
-Timeline Chart
-Usage Heatmap
-7. Search Engine
-Tìm kiếm:
-Tên dự án
-Tag
-Repository URL
-File
-Owner
-Hỗ trợ:
-Real-time Search
-Fuzzy Search
-Smart Suggestion
-8. Backup Center
-Chức năng:
-Backup thủ công.
-Backup tự động.
-Restore.
-Snapshot.
-Lịch sử backup.
-Loại backup:
-Full Backup
-Incremental Backup
-Snapshot Backup
-9. Archive Center
-Lưu trữ dự án cũ.
-Chức năng:
-Archive.
-Restore.
-Compress.
-Export ZIP.
-10. Git Integration
-Hỗ trợ:
-GitHub
-GitLab
-Bitbucket
-Tính năng:
-Clone Repository
-Pull
-Push
-Branch Manager
-Commit History
-11. Notification System
-Thông báo:
-Backup thành công.
-Dung lượng gần đầy.
-Dự án mới.
-Lỗi hệ thống.
-12. Security
-Authentication:
-Email Login
-OAuth
-Two-Factor Authentication
-Authorization:
-Admin
-Manager
-Developer
-Viewer
-Bảo mật:
-JWT
-Encryption
-Audit Log
-Rate Limit
-13. Công Nghệ Đề Xuất
-Frontend:
-Next.js
-React
-TailwindCSS
-TypeScript
-Backend:
-Node.js
-Express
-NestJS
-Database:
-PostgreSQL
-Storage:
-MinIO
-S3 Compatible Storage
-Authentication:
-NextAuth
-Deployment:
-Docker
-Nginx
-Vercel
-VPS
-14. Giao Diện
-Phong cách:
-IBM Cloud
-GitHub Enterprise
-Vercel Dashboard
-Thiết kế:
-Dark Mode
-Glass Effect nhẹ
-Responsive
-Mobile Friendly
-Màu sắc:
-Background: #0A0A0A Card: #111111 Border: #262626 Accent: #00D4FF
-15. Roadmap
-Phase 1
-Authentication
-Dashboard
-Project Storage
-Phase 2
-Analytics
-Backup
-Archive
-Phase 3
-Git Integration
-Notification
-Phase 4
-AI Assistant
-Auto Optimization
-Smart Search
-16. Tiêu Chuẩn Hoàn Thành
-Không lỗi giao diện.
-Responsive 100%.
-Lighthouse trên 95.
-API dưới 300ms.
-Hỗ trợ 10.000+ dự án.
-Hỗ trợ 1TB+ dữ liệu.
-Có Backup và Restore hoàn chỉnh.
-Có phân quyền đầy đủ. :::
-Để đạt mức "đọc là làm được", bước tiếp theo là soạn thêm Database Schema (ERD), API Specification, Folder Structure, UI/UX Design System và kiến trúc hệ thống đầy đủ (frontend, backend, storage, auth, analytics). Những phần đó mới là thứ giúp lập trình viên xây dựng gần như không phải đoán.
+<p align="center">
+  <img src="public/rkix-logo.svg" width="96" alt="RKix Storage Center logo" />
+</p>
+
+<h1 align="center">RKix Storage Center</h1>
+
+<p align="center">
+  <strong>Dark, minimal and AI-ready storage control plane for project teams.</strong>
+</p>
+
+<p align="center">
+  <a href="https://react.dev"><img alt="React" src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=061018"></a>
+  <a href="https://vite.dev"><img alt="Vite" src="https://img.shields.io/badge/Vite-6-646CFF?style=for-the-badge&logo=vite&logoColor=white"></a>
+  <a href="https://www.typescriptlang.org"><img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white"></a>
+  <a href="https://ai.google.dev"><img alt="Gemini AI" src="https://img.shields.io/badge/Gemini_AI-Enabled-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white"></a>
+</p>
+
+<p align="center">
+  <img alt="Version" src="https://img.shields.io/badge/version-v1.0-00D4FF?style=flat-square">
+  <img alt="Node" src="https://img.shields.io/badge/node-%3E%3D20%20%3C23-3C873A?style=flat-square&logo=node.js&logoColor=white">
+  <img alt="Sponsor" src="https://img.shields.io/badge/sponsor-open-FFDD00?style=flat-square&logo=githubsponsors&logoColor=111111">
+  <img alt="License" src="https://img.shields.io/badge/license-private-111827?style=flat-square">
+</p>
+
+---
+
+## Preview
+
+```bash
+npm ci
+cp .env.example .env
+npm run dev
+```
+
+Open: **http://localhost:3000**
+
+> AI Copilot requires a valid `GEMINI_API_KEY` in `.env`.
+
+## What ships in v1.0
+
+- Premium dark UI shell with animated glass background, minimal RKix logo and release-ready landing hero.
+- Unified dashboard for projects, storage usage, backups, archives, notifications and audit logs.
+- Project registry with search, create/edit/delete, repository connection test and Git action simulations.
+- Storage Explorer for virtual folders/files, rename, move, delete and Trash cleanup.
+- Backup and Archive centers for snapshot/restore and ZIP export simulations.
+- Gemini-powered AI Copilot endpoint with live project/storage context.
+
+## Stack
+
+| Layer | Tools |
+| --- | --- |
+| Frontend | React 19, Vite, TypeScript, Tailwind CSS v4, Recharts, lucide-react, motion |
+| Backend | Node.js, Express, TypeScript, tsx, esbuild |
+| AI | Google Gemini via `@google/genai` |
+| Runtime Store | Local `data_store.json` generated by the server |
+
+## Commands
+
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start Express + Vite development server. |
+| `npm run lint` | Type-check with TypeScript. |
+| `npm run build` | Build frontend and production server bundle. |
+| `npm run check` | Run lint and build together. |
+| `npm run start` | Run the production bundle from `dist/server.cjs`. |
+
+## Project map
+
+```text
+.
+├── public/rkix-logo.svg          # Minimal RKix logo and favicon source
+├── src/components/RKixLogo.tsx   # Reusable UI logo component
+├── src/App.tsx                   # Main product UI and workflows
+├── src/index.css                 # Design tokens, animations and global polish
+├── server.ts                     # Express API and Vite/static serving
+├── docs/                         # Development, architecture and API docs
+└── .github/                      # CI workflow and PR template
+```
+
+## Docs
+
+- [Development Guide](docs/DEVELOPMENT.md)
+- [Architecture Overview](docs/ARCHITECTURE.md)
+- [API Reference](docs/API.md)
+- [Contributing](CONTRIBUTING.md)
+
+## Sponsors & AI partners
+
+RKix Storage Center is prepared for sponsor visibility and AI-enabled product demos. Replace the badges above with real sponsor URLs when the public sponsorship page is available.
+
+## Security notes
+
+- Never commit `.env`, secrets, `data_store.json`, `dist`, `node_modules` or logs.
+- The local JSON store is for demo/development only, not multi-user production persistence.
+- Move secrets to a managed secret store before deploying beyond local demo.
